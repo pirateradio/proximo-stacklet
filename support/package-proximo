@@ -1,0 +1,3 @@
+#!/bin/sh
+
+tar czvf pkg/proximo-stacklet.tgz bin vendor
