@@ -3,12 +3,18 @@
 dante_source="http://www.inet.no/dante/files/dante-1.4.0-pre1.tar.gz"
 dante_buildpack="https://raw.github.com/pirateradio/proximo-stacklet/master/support/build-dante.sh"
 
+# build dante
 slug=$(anvil build -p $dante_source -b $dante_buildpack)
 
+# extract build artifacts into vendor/dante
 cd vendor/dante
 curl $slug | tar xzv
+
+# clean up anvil extras
 rm -rf .profile.d
 rm -f .profile
 rm -f Procfile
 rm -f sbin/sockd
+
+# restore dir
 cd -
