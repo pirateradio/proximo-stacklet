@@ -31,6 +31,6 @@ made through the [Proximo proxy](https://addons.heroku.com/proximo).
 
 ## License
 
-This is a fancy wrapper for [Dante](http://www.inet.no/dante/) which is licensed with a BSD/CMU-type [license](ftp://ftp.inet.no/pub/socks/LICENSE).
+`proximo-stacklet` is a fancy wrapper for [Dante](http://www.inet.no/dante/) which is licensed with a BSD/CMU-type [license](ftp://ftp.inet.no/pub/socks/LICENSE).
 
 The rest is licensed MIT.
