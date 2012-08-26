@@ -1,6 +1,6 @@
 # proximo-stacklet
 
-Send outbound traffic from a process through a Proximo proxy.
+Send outbound traffic from a process through a [Proximo proxy](https://addons.heroku.com/proximo).
 
 ## Installation
 
@@ -13,19 +13,21 @@ Install the stacklet into your app:
 
 ## Usage
 
-Modify your Procfile to prepend `bin/proximo`:
+Modify your Procfile to prepend `bin/proximo` to any command:
 
     web: bin/proximo bundle exec thin start
 
-## Advanced Usage
-
 By default, the `bin/proximo` wrapper will cause all outbound traffic
-to be sent across the Proximo proxy.
+from the wrapped process to be sent across the [Proximo proxy](https://addons.heroku.com/proximo) and appear
+to come from your static IP.
 
 If you'd like to send a subset of traffic over the proxy, limit
 with `PROXIMO_MASK`
 
     $ heroku config:add PROXIMO_MASK="172.18.32.0/24"
+
+This will cause only connections within 172.18.32.0-172.18.32.255 to be
+made through the [Proximo proxy](https://addons.heroku.com/proximo).
 
 ## License
 
