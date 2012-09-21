@@ -30,4 +30,6 @@ cat "${SOCKS_CONF}.template" | \
       -e "s/%PROXIMO_MASK%/${PROXIMO_MASK_ESCAPED}/g" \
       > $SOCKS_CONF
 
+chmod +x ${DANTE_DIR}/bin/*
+
 exec ${DANTE_DIR}/bin/socksify $*
