@@ -14,7 +14,6 @@ PROXIMO_PASSWORD=${PROXIMO_AUTH#*:}
 PROXIMO_HOST=${PROXIMO_URL#*@}
 PROXIMO_HOST=$(echo $PROXIMO_HOST | sed -e 's/proxy-\([0-9]*\)-\([0-9]*\)-\([0-9]*\)-\([0-9]*\)\.proximo.io/\1\.\2\.\3\.\4/g')
 PROXIMO_MASK=${PROXIMO_MASK:-0.0.0.0/0}
-PROXIMO_MASK_ESCAPED=${PROXIMO_MASK/\//\\/}
 
 export SOCKS_CONF="${DANTE_DIR}/socks.conf"
 export SOCKS_LIBDIR="${DANTE_DIR}/lib"
@@ -25,10 +24,18 @@ export SOCKS_USEFULLPATH="true"
 
 echo "Proxying traffic bound for ${PROXIMO_MASK} via Proximo host ${PROXIMO_HOST}:1080"
 
-cat "${SOCKS_CONF}.template" | \
-  sed -e "s/%PROXIMO_HOST%/${PROXIMO_HOST}/g" \
-      -e "s/%PROXIMO_MASK%/${PROXIMO_MASK_ESCAPED}/g" \
-      > $SOCKS_CONF
+OIFS=$IFS
+IFS=","
+
+rm -f $SOCKS_CONF
+
+for PROXIMO_MASK_PART in $PROXIMO_MASK; do
+  PROXIMO_MASK_ESCAPED=${PROXIMO_MASK_PART/\//\\/}
+  cat "${SOCKS_CONF}.template" | \
+    sed -e "s/%PROXIMO_HOST%/${PROXIMO_HOST}/g" \
+        -e "s/%PROXIMO_MASK%/${PROXIMO_MASK_ESCAPED}/g" \
+        >> $SOCKS_CONF
+done
 
 chmod +x ${DANTE_DIR}/bin/*
 
